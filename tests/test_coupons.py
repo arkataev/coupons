@@ -1,20 +1,7 @@
-import uuid
-from unittest import mock
-
 import pytest
 
-from src.coupons.claiming import User, claim_coupon, AlreadyClaimed
-from src.coupons.generate import create_coupons, Coupon, Brand
-
-
-@pytest.fixture
-def coupon():
-    return Coupon(discount=0.2)
-
-
-@pytest.fixture
-def brand_mock():
-    return mock.create_autospec(Brand, instance=True)
+from src.coupons.common import Coupon
+from src.coupons.generate import create_coupons
 
 
 def test_create_coupons(coupon):
@@ -32,13 +19,10 @@ def test_create_coupons_invalid_amount(coupon):
         list(create_coupons(coupon, amount=-1))
 
 
-def test_coupon_claim(brand_mock, coupon):
-    brand_mock.get_non_claimed_coupon.return_value = coupon
-    coupon = claim_coupon(User(user_id=str(uuid.uuid4())), brand=brand_mock)
-    assert coupon.claimed_at
+def test_coupons_lt(brand):
+    c1 = Coupon(brand, 0.2)
+    c2 = Coupon(brand, 0.2)
 
-
-def test_coupon_claimed(coupon, brand_mock):
-    user = User(user_id=str(uuid.uuid4()), coupon=coupon)
-    with pytest.raises(AlreadyClaimed):
-        claim_coupon(user, brand=brand_mock)
+    assert c1 == c2
+    c1.claimed_at = True
+    assert c1 > c2

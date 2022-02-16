@@ -1,27 +1,11 @@
-import datetime
 import uuid
-from dataclasses import dataclass
 from datetime import datetime
 from typing import Iterator
-from typing import Optional
 
-__all__ = ['create_coupons', 'Coupon', 'Brand']
-
-
-@dataclass
-class Coupon:
-    discount: float
-    code: Optional[str] = None
-    created_at: Optional[datetime] = None
-    claimed_at: Optional[datetime] = None
-    used_at: Optional[datetime] = None
+from .common import Coupon
 
 
-class Brand:
-    brand_id: int
-
-    def get_non_claimed_coupon(self) -> Coupon:
-        """Return next non-claimed coupon"""
+__all__ = ['create_coupons']
 
 
 def create_coupons(coupon: Coupon, amount: int = 1) -> Iterator[Coupon]:
