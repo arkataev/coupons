@@ -14,9 +14,10 @@ def create_coupons(coupon: Coupon, amount: int = 1) -> Iterator[Coupon]:
         raise ValueError('Generatated coupons amount should be >= 0')
 
     for _ in range(amount):
-        coupon.created_at = datetime.now()
-        coupon.code = _make_coupon_code()
-        yield coupon
+        _coupon = Coupon(brand=coupon.brand, discount=coupon.discount)
+        _coupon.created_at = datetime.now()
+        _coupon.code = _make_coupon_code()
+        yield _coupon
 
 
 def _make_coupon_code() -> str:

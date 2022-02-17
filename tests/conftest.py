@@ -1,16 +1,12 @@
 from uuid import uuid4
 
+import django
 import pytest
+from rest_framework.test import APIClient
 
-from src.coupons.common import Brand, Coupon
-from src.coupons.generate import create_coupons
-from src.coupons.storage import CouponHeapStorage
-from src.coupons.api.http.app import app
-
-
-@pytest.fixture(scope='session')
-def storage():
-    return CouponHeapStorage()
+from coupons.common import Brand, Coupon
+from coupons.generate import create_coupons
+from coupons.storage import CouponHeapStorage
 
 
 @pytest.fixture
@@ -23,6 +19,11 @@ def coupon(brand):
     return Coupon(brand=brand, discount=0.2)
 
 
+@pytest.fixture(scope='session')
+def storage():
+    return CouponHeapStorage()
+
+
 @pytest.fixture(autouse=True)
 def generate_coupons(storage, coupon):
     coupons = create_coupons(coupon, 10)
@@ -32,6 +33,5 @@ def generate_coupons(storage, coupon):
 
 @pytest.fixture(scope='session')
 def client():
-    app.config.update({"TESTING": True})
-    yield app.test_client()
-    app.config.update({"TESTING": False})
+    django.setup()
+    return APIClient()

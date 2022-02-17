@@ -1,7 +1,7 @@
 import pytest
 
-from src.coupons.common import Coupon
-from src.coupons.generate import create_coupons
+from coupons.common import Coupon
+from coupons.generate import create_coupons
 
 
 def test_create_coupons(coupon):
