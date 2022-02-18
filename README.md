@@ -1,6 +1,6 @@
-
-
 # Install
+Python >= 3.7 required
+
 `pip install -r requirements.txt`
 
 # Run Demo
