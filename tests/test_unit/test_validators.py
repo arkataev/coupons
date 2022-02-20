@@ -2,7 +2,7 @@ import pytest
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
 
-from coupons.api.http import validators
+from coupons.api.v1.http import validators
 
 
 @pytest.mark.parametrize('value', [None, 1])

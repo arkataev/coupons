@@ -18,7 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include('coupons.api.http.urls'))
+    path('api/v1/', include('coupons.api.v1.http.urls'))
 ]
 
 handler409 = 'utils.coupons_exceptions_handler'
